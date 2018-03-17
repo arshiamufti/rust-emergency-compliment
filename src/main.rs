@@ -1,11 +1,8 @@
-extern crate handlebars;
 extern crate motivations;
-extern crate pick_one;
 extern crate simple_server;
 
-mod templates;
-
 use std::env;
+use motivations::MOTIVATIONS;
 
 use simple_server::Server;
 
@@ -16,7 +13,7 @@ fn get_server_port() -> String {
 
 fn main() {
     let app = Server::new(|_request, mut response| {
-        let motivation = templates::motivation();
+        let motivation = MOTIVATIONS[0].as_bytes();
         Ok(response.body(motivation)?)
     });
  
