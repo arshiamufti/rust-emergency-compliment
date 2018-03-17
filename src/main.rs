@@ -1,22 +1,19 @@
-extern crate handlebars;
 extern crate motivations;
 extern crate pick_one;
 extern crate simple_server;
 
-mod templates;
-
+use motivations::MOTIVATIONS;
 use std::env;
 
 use simple_server::Server;
 
-/// Look up our server port number in PORT, for compatibility with Heroku.
 fn get_server_port() -> String {
     env::var("PORT").unwrap_or("7878".to_string())
 }
 
 fn main() {
     let app = Server::new(|_request, mut response| {
-        let motivation = templates::motivation();
+        let motivation = pick_one::pick_one_str(&MOTIVATIONS).as_bytes();
         Ok(response.body(motivation)?)
     });
  
